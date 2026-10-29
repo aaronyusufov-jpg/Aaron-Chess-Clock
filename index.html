@@ -1,0 +1,151 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#10141c">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Chess Clock">
+  <meta name="description" content="Aaron Chess Clock — стильные шахматные часы с разными режимами времени.">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <link rel="stylesheet" href="style.css">
+  <title>Aaron Chess Clock</title>
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-icon">♞</div>
+        <div>
+          <h1>CHESS CLOCK</h1>
+          <p>BY <span>AARON</span></p>
+        </div>
+      </div>
+      <button id="settingsButton" class="icon-button" aria-label="Настройки">⚙</button>
+    </header>
+
+    <section class="game-info">
+      <div class="status-pill">
+        <span class="status-dot" id="statusDot"></span>
+        <span id="gameStatus">ГОТОВ К ИГРЕ</span>
+      </div>
+      <div class="mode-label" id="modeLabel">5 МИН · +0 СЕК</div>
+    </section>
+
+    <section class="clock-area" aria-label="Шахматные часы">
+      <button class="clock black-clock" id="blackClock" data-player="black" aria-label="Часы чёрных">
+        <span class="player-label"><span class="player-piece">♚</span> ЧЁРНЫЕ</span>
+        <span class="time-display" id="blackTime">05:00</span>
+        <span class="clock-hint" id="blackHint">НАЖМИ, ЧТОБЫ НАЧАТЬ</span>
+      </button>
+
+      <div class="clock-divider">
+        <span class="divider-line"></span>
+        <span class="divider-icon">♟</span>
+        <span class="divider-line"></span>
+      </div>
+
+      <button class="clock white-clock" id="whiteClock" data-player="white" aria-label="Часы белых">
+        <span class="player-label"><span class="player-piece">♔</span> БЕЛЫЕ</span>
+        <span class="time-display" id="whiteTime">05:00</span>
+        <span class="clock-hint" id="whiteHint">ВАШ ХОД</span>
+      </button>
+    </section>
+
+    <section class="game-controls">
+      <button id="resetButton" class="control-button secondary">
+        <span>↺</span> ЗАНОВО
+      </button>
+      <button id="pauseButton" class="control-button primary">
+        <span id="pauseIcon">Ⅱ</span> <span id="pauseText">ПАУЗА</span>
+      </button>
+      <button id="flipButton" class="control-button secondary">
+        <span>⇅</span> ПЕРЕВЕРНУТЬ
+      </button>
+    </section>
+
+    <section class="settings-panel" id="settingsPanel">
+      <div class="section-heading">
+        <div>
+          <h2>Настройка партии</h2>
+          <p>Выбери контроль времени</p>
+        </div>
+        <button class="close-button" id="closeSettings" aria-label="Закрыть">✕</button>
+      </div>
+
+      <div class="preset-grid">
+        <button class="preset active" data-minutes="5" data-increment="0">
+          <strong>5 + 0</strong><span>Блиц</span>
+        </button>
+        <button class="preset" data-minutes="3" data-increment="0">
+          <strong>3 + 0</strong><span>Блиц</span>
+        </button>
+        <button class="preset" data-minutes="5" data-increment="3">
+          <strong>5 + 3</strong><span>Блиц</span>
+        </button>
+        <button class="preset" data-minutes="10" data-increment="0">
+          <strong>10 + 0</strong><span>Рапид</span>
+        </button>
+        <button class="preset" data-minutes="15" data-increment="10">
+          <strong>15 + 10</strong><span>Рапид</span>
+        </button>
+        <button class="preset" data-minutes="30" data-increment="0">
+          <strong>30 + 0</strong><span>Классика</span>
+        </button>
+      </div>
+
+      <div class="custom-time">
+        <h3>Свой режим</h3>
+        <div class="custom-fields">
+          <label>
+            Минуты
+            <input type="number" id="customMinutes" min="1" max="180" value="5" inputmode="numeric">
+          </label>
+          <label>
+            Добавление, сек
+            <input type="number" id="customIncrement" min="0" max="180" value="0" inputmode="numeric">
+          </label>
+          <button id="applyCustom" class="apply-button">Применить</button>
+        </div>
+      </div>
+
+      <div class="preferences">
+        <label class="preference-row">
+          <span><strong>Звуковые сигналы</strong><small>Звук при переключении часов</small></span>
+          <input type="checkbox" id="soundToggle" checked>
+          <span class="switch"></span>
+        </label>
+        <label class="preference-row">
+          <span><strong>Вибрация</strong><small>Тактильный отклик на iPhone</small></span>
+          <input type="checkbox" id="vibrationToggle" checked>
+          <span class="switch"></span>
+        </label>
+      </div>
+
+      <button id="newGameButton" class="new-game-button">НОВАЯ ПАРТИЯ</button>
+      <p class="install-note">Для установки на iPhone открой сайт в Safari, нажми «Поделиться» → «На экран Домой».</p>
+    </section>
+
+    <footer>
+      <span>FOCUS. THINK. MOVE.</span>
+      <span>CHESS CLOCK <span class="footer-dot">●</span> AARON</span>
+    </footer>
+  </main>
+
+  <div class="result-overlay" id="resultOverlay" hidden>
+    <div class="result-card">
+      <div class="result-symbol" id="resultSymbol">♔</div>
+      <p class="result-eyebrow">ПАРТИЯ ЗАВЕРШЕНА</p>
+      <h2 id="resultTitle">Время вышло</h2>
+      <p id="resultMessage">Победили чёрные</p>
+      <button id="resultReset" class="new-game-button">ИГРАТЬ ЕЩЁ</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
